@@ -1,0 +1,134 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Oswald", sans-serif;
+}
+/*
+1 - 문서 내의 모든 요소를 선택
+2 - 요소 내부의 여백, 3 - 요소 외부의 여백
+4 - 요소마다 너비와 높이가 있는데, 이걸 늘리거나 줄이거나 혹은 padding 값 등을
+추가할 경우에 어떻게 이 요소에 너비와 높이에 적용되는지 여부를 설정.
+border나 padding을 추가하면 해당 box의 크기는 그만큼 더 커지지 않고 사용자가 지정한 너비나 높이만큼 길이에 맞춰짐.
+*/
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: #333;
+}
+/*
+16 - body를 Flex 컨테이너로 만들어 그 안에 있는 모든 요소를 조정할 수 있도록 함.
+17, 18 - 모든 Flex 아이템들을 수평 및 수직으로 가운데 정렬
+19 - body의 최소 높이를 화면의 높이와 같도록 설정하여 화면이 작을 때도 아이템들이 화면 중앙에 위치
+*/
+
+.box {
+	position: relative;
+	height: 200px;
+	transform-style: preserve-3d;
+	animation: animate 16s linear infinite;
+}
+/*
+29 - .box 클래스를 상대적으로(자신을 기준으로) 배치하여 내부 요소를 상대적으로 배치
+*/
+
+@keyframes animate {
+	0% {
+		transform: rotateX(-20deg) rotateY(360deg);
+	}
+	100% {
+		transform: rotateX(-20deg) rotateY(0deg);
+	}
+}
+
+.box div {
+	position: absolute;
+	inset: 0;
+	transform-style: preserve-3d;
+}
+/*
+48 - .box 클래스를 가장 가까운 부모 요소를 기준으로 내부 요소들을 배치
+49 - 위치를 지정하기 위한 속성. 'top', 'right', 'bottom', 'left' 순서.
+0은 부모 요소인 .box 요소의 네 가장자리에 딱 붙어서 배치됩
+*/
+
+.box div.block span {
+	position: absolute;
+	left: calc(50% - 100px);
+	width: 200px;
+	height: 100px;
+	background: #444;
+	transform: rotateY(calc(90deg * var(--i))) translateZ(100px);
+	transition: 0.5s;
+}
+/*
+60 - calc = CSS에서 값을 계산하는 함수
+*/
+
+.box:hover div.block span {
+	background: #f00;
+	filter: drop-shadow(0 0 50px #f00);
+}
+/*
+73 - drop-shadow = 요소에 그림자 효과를 생성하는 함수
+순서대로 그림자의 (수평 위치, 수직 위치, 그림자의 흐림 정도, 그림자의 색상 )
+*/
+
+.box div.text span {
+	position: absolute;
+	width: 100%;
+	height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: rotateY(calc(90deg * var(--i))) translateZ(150px);
+	cursor: pointer;
+	color: #fff;
+	font-size: 8em;
+	text-transform: uppercase;
+	z-index: 10;
+	line-height: 1em;
+	-webkit-text-stroke: 3px #000;
+	transform-style: preserve-3d;
+}
+
+.box div.text span:nth-child(1) {
+	font-size: 6em;
+}
+
+.box div.text span::before {
+	content: attr(data-text);
+	position: absolute;
+	bottom: 7px;
+	transform-origin: bottom;
+	transform: rotateX(-90deg);
+	color: rgba(0, 0, 0, 0.1);
+	-webkit-text-stroke: 0px #000;
+	filter: blur(5px);
+}
+/*
+103 - 가상 요소에 콘텐츠를 추가하는 데 사용. 여기에서는 HTML 요소의 data-text 속성의 값을 가져와서
+가상 요소의 콘텐츠로 사용했는데 이는 HTML에서 data-text 속성에 설정된 값을
+CSS에서 가상 요소의 콘텐츠로 표시가능. 이 때 attr() 함수는 HTML 요소의 속성 값을 가져오는 데 사용됨.
+106 - 요소의 변환(rotate, scale 등)을 적용할 때 기준이 되는 축을 지정. 여기에서는 요소가 회전될 때 하단을 중심으로 회전
+110 - 가상 요소에 5px의 흐림 효과를 적용
+*/
+
+.box div.text span::after {
+	content: "";
+	position: absolute;
+	top: 100px;
+	width: 360px;
+	height: 60px;
+	background: #444;
+	transform: rotateX(-90deg);
+	transition: 0.5s;
+}
+
+.box:hover div.text span::after {
+	background: #f00;
+	filter: drop-shadow(0 0 50px #f00);
+}
