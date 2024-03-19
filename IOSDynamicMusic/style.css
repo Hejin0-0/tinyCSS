@@ -2,20 +2,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
 :root {
-	--size: max(5px, 1vmin);
-	--height: 80em;
-	--pad: 1.25em;
-	--border-radius: 6.666em;
+	--size: max(5px, 1vmin); /* 사이즈 변수를 설정 */
+	--height: 80em; /* 높이 변수를 설정 */
+	--pad: 1.25em; /* 여백 변수를 설정 */
+	--border-radius: 6.666em; /* 테두리 반지름 변수를 설정 */
 	--gutter: calc(var(--pad) * 2);
-	--button-width: 0.333em;
-	--notch-height: 3.33em;
-	--notch-width: 33.3%;
-	--notch-radius: calc(var(--border-radius) - calc(var(--pad) * 2));
-	--notch-duration: 0.333s;
-	--ease: cubic-bezier(0.666, 0, 0.4, 1);
-	--ease-spring: cubic-bezier(0.666, 0, 0.4, 1.2);
-	--ease-out: cubic-bezier(0.15, 0, 0.333, 1);
-	--border-width: 0.4em;
+	--button-width: 0.333em; /* 버튼 너비 변수를 설정 */
+	--notch-height: 3.33em; /* 노치 높이 변수를 설정 */
+	--notch-width: 33.3%; /* 노치 너비 변수를 설정 */
+	--notch-radius: calc(
+		var(--border-radius) - calc(var(--pad) * 2)
+	); /* notch 반지름 변수를 설정 */
+	--notch-duration: 0.333s; /* notch 지속시간 변수를 설정 */
+	--ease: cubic-bezier(0.666, 0, 0.4, 1); /* ease 함수 변수를 설정 */
+	--ease-spring: cubic-bezier(
+		0.666,
+		0,
+		0.4,
+		1.2
+	); /* ease 스프링 변수를 설정 */
+	--ease-out: cubic-bezier(0.15, 0, 0.333, 1); /* ease 아웃 변수를 설정 */
+	--border-width: 0.4em; /* 테두리 너비 변수를 설정 */
 	--deep-purple: 284;
 	--gold: 30;
 	--space-black: 215;
@@ -24,6 +31,8 @@
 	--c-s: 100%;
 	--c-l: 50%;
 }
+
+/* 이 코드는 전반적인 디자인을 구성하기 위한 변수들을 정의. */
 
 @-webkit-keyframes appear {
 	to {
@@ -40,9 +49,10 @@
 }
 
 body {
+	/* 전체적인 페이지의 스타일을 지정 */
 	background: #00000a;
 	display: flex;
-	flex-direction: column;
+	flex-direction: column; /* 요소의 방향 */
 	gap: 3em;
 	align-items: center;
 	justify-content: center;
@@ -52,9 +62,10 @@ body {
 }
 
 .phone {
+	/* 휴대폰을 나타내는 요소의 스타일을 정의 */
 	position: relative;
 	z-index: 1;
-	aspect-ratio: 37/76;
+	aspect-ratio: 37/76; /* 가로 세로 비율을 설정 */
 	background: black;
 	height: var(--height);
 	border-radius: var(--border-radius);
@@ -64,8 +75,12 @@ body {
 	opacity: 0;
 	transform: scale3d(1.1, 1.1, 1);
 	-webkit-animation: appear 1s var(--ease-out) forwards;
+	/* --ease-out는 미리 정의된 타이밍 함수로, 완만하게 시작하여 점차 빨라지는 애니메이션.
+		forwards: 애니메이션이 완료된 후에도 마지막 프레임의 상태를 유지. 이를 통해 애니메이션이 완료된 후에 요소의 최종 상태를 유지할 수 있음*/
 	animation: appear 1s var(--ease-out) forwards;
-	-webkit-backface-visibility: hidden;
+	-webkit-backface-visibility: hidden; /* 뒷면 가시성 설정..
+	일반적으로 3D 변형된 요소는 뒷면이 사용자에게 보이지 않는 경우가 많음. 그러나 종종 요소의 뒷면이 간혹 사용자에게 보일 수 있는데 이러한 경우를 방지 가능.
+	요소의 뒷면이 보이지 않도록 숨기는 이유는 성능 및 렌더링 효율성을 높이기 위함. 뒷면이 보이지 않도록 처리하면 브라우저가 뒷면을 렌더링하지 않고 스킵할 수 있기 때문에 성능향상 */
 }
 
 .phone::before {
@@ -367,8 +382,8 @@ body {
 	cursor: pointer;
 	width: 100%;
 	transition: inherit;
-	transition-property: inherit;
-	will-change: inherit;
+	transition-property: inherit; /* inherit는 부모 요소의 값을 상속하여 현재 요소에 적용하는 키워드.. 부모 요소의 transition-property 속성 값을 현재 요소에 상속하여 적용 */
+	will-change: inherit; /* 위와 동일. 브라우저에게 요소가 향후에 변경될 것이라고 미리 알리는 역할. 브라우저는 이 정보를 사용하여 성능 최적화를 수행 */
 	filter: drop-shadow(0 1em 2em hsla(0 0% 0% / var(--shadow-opacity, 0)));
 	transform: scale3d(0.375, 0.4, 1);
 	transform-origin: top;
@@ -600,6 +615,7 @@ input[type="radio"] {
 	--swatch-s1: hsl(var(--deep-purple), 100%, 50%);
 	--swatch-s2: hsl(calc(var(--deep-purple) - 60), 100%, 20%);
 }
+/* [for=" "] -> class가 swatch인 요소 중에서 for 속성 값이 deep-purple인 요소를 선택. 이 경우에는 for 속성 값이 deep-purple인 .swatch 클래스를 가진 요소를 선택 */
 
 .swatch[for="deep-purple"]:before {
 	opacity: 0.5;
@@ -661,6 +677,7 @@ input[type="radio"] {
 	z-index: 1;
 	transition-delay: 0s;
 }
+/* id가 deep-purple인 요소가 체크되었을 때(checked), .phone 클래스를 가진 요소의 형제 요소 중에서 .bg 클래스를 가진 요소의 자식 중에서 .deep-purple 클래스를 가진 요소를 선택하고 그것의 투명도를 1로 설정 */
 
 #deep-purple:checked ~ .phone .bg .deep-purple .section::before {
 	transition-delay: 0s;
